@@ -178,6 +178,7 @@ checkout: $(LH_SRC) $(N_SRC)
 update: $(LH_SRC) $(N_SRC)
 	cd $(LH_SRC) && git pull
 	cd $(N_SRC) && git pull
+	git pull
 
 clean:
 	-$(MAKE) -C $(N_OBJ) clean
