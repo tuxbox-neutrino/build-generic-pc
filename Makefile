@@ -168,10 +168,10 @@ $(DEST):
 	cp --remove-destination -a skel-root/* $(DEST)/
 
 $(LH_SRC): | $(SRC)
-	cd $(SRC) && git clone git@github.com:tuxbox-neutrino/$(LIBSTB-HAL).git
+	cd $(SRC) && git clone https://github.com/tuxbox-neutrino/$(LIBSTB-HAL).git
 
 $(N_SRC): | $(SRC)
-	cd $(SRC) && git clone git@github.com:tuxbox-neutrino/$(NEUTRINO).git
+	cd $(SRC) && git clone https://github.com/tuxbox-neutrino/$(NEUTRINO).git
 
 checkout: $(LH_SRC) $(N_SRC)
 
