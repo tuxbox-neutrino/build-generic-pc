@@ -40,7 +40,7 @@
 ###############################################################################
 
 NEUTRINO = gui-neutrino
-N_BRANCH = pu/mp
+N_BRANCH = master
 LIBSTB-HAL = library-stb-hal
 
 SRC = $(PWD)/src
