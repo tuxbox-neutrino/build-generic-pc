@@ -42,6 +42,7 @@
 NEUTRINO = gui-neutrino
 N_BRANCH = master
 LIBSTB-HAL = library-stb-hal
+LIB_BRANCH = mpx
 
 SRC = $(PWD)/src
 OBJ = $(PWD)/obj
@@ -131,6 +132,8 @@ libstb-hal: $(LH_OBJ)/config.status | $(DEST)
 
 $(LH_OBJ)/config.status: | $(LH_OBJ) $(LH_SRC)
 	$(LH_SRC)/autogen.sh
+	set -e; cd $(LH_SRC); \
+		git checkout $(LIB_BRANCH); \
 	set -e; cd $(LH_OBJ); \
 		$(LH_SRC)/configure --enable-maintainer-mode \
 			--prefix=$(DEST) \
@@ -191,7 +194,7 @@ clean-all: clean
 ###############################################################################
 
 # libdvbsi is not commonly packaged for linux distributions...
-LIBDVBSI_VER=0.3.7
+LIBDVBSI_VER=0.3.8
 $(SRC)/libdvbsi++-$(LIBDVBSI_VER).tar.bz2: | $(SRC)
 	cd $(SRC) && wget http://www.saftware.de/libdvbsi++/libdvbsi++-$(LIBDVBSI_VER).tar.bz2
 
@@ -204,7 +207,18 @@ libdvbsi: $(SRC)/libdvbsi++-$(LIBDVBSI_VER).tar.bz2 | $(DEST)
 		make install
 	rm -rf $(SRC)/libdvbsi++-$(LIBDVBSI_VER)
 
-LUA_VER=5.3.3
+# libdvbsi is not commonly packaged for linux distributions...
+libdvbsi-git: | $(DEST)
+	rm -rf $(SRC)/libdvbsi++
+	git clone git://git.opendreambox.org/git/obi/libdvbsi++.git $(SRC)/libdvbsi++
+	set -e; cd $(SRC)/libdvbsi++; \
+		./autogen.sh; \
+		./configure --prefix=$(DEST); \
+		$(MAKE); \
+		make install
+# 	rm -rf $(SRC)/libdvbsi++
+
+LUA_VER=5.3.5
 $(SRC)/lua-$(LUA_VER).tar.gz: | $(SRC)
 	cd $(SRC) && wget http://www.lua.org/ftp/lua-$(LUA_VER).tar.gz
 
@@ -217,7 +231,7 @@ lua: $(SRC)/lua-$(LUA_VER).tar.gz | $(DEST)
 	rm -rf $(SRC)/lua-$(LUA_VER)
 	rm -rf $(DEST)/man
 
-FFMPEG_VER=3.2
+FFMPEG_VER=4.1.3
 $(SRC)/ffmpeg-$(FFMPEG_VER).tar.bz2: | $(SRC)
 	cd $(SRC) && wget http://www.ffmpeg.org/releases/ffmpeg-$(FFMPEG_VER).tar.bz2
 
